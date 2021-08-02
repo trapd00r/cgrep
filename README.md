@@ -1,22 +1,22 @@
+## cgrep - grep with colors without the grep
+
 ![cgrep](/assets/cgrep.png)
 
-# cgrep - grep with colors without the grep
-
-# USAGE
+## USAGE
 
     cgrep <regex>
 
-# DESCRIPTION
+## DESCRIPTION
 
 grep is great and I use it all the time. At times I want to hilight
 output data like grep can do with $GREP\_COLORS, but without actually
 **filtering** the results. This program does just that.
 
-# OPTIONS
+## OPTIONS
 
 TODO
 
-# ENVIRONMENT
+## ENVIRONMENT
 
 There's two environment variables that can be read and processes by cgrep:
 
@@ -35,17 +35,17 @@ range of color/attribute definitions:
     export    CGREP_MATCH=38;5;196;1 # bold red (color index 196)
     export CGREP_NONMATCH=38;5;88;3  # italic darker red
 
-# EXAMPLES
+## EXAMPLES
 
     # match one or more digits that's not preceeded by mp|MP, as in MP3.
     beet ls artist:laleh | cgrep '(?<!(?i:mp))\d+'
 
-# REPORTING BUGS
+## REPORTING BUGS
 
 Report bugs and/or feature requests on rt.cpan.org, the repository issue tracker
 or directly to [m@japh.se](https://metacpan.org/pod/m%40japh.se)
 
-# AUTHOR
+## AUTHOR
 
     Magnus Woldrich
     CPAN ID: WOLDRICH
@@ -54,20 +54,20 @@ or directly to [m@japh.se](https://metacpan.org/pod/m%40japh.se)
     L<~/|http://japh.se>
     L<git|http://github.com/trapd00r>
 
-# CONTRIBUTORS
+## CONTRIBUTORS
 
 None required yet.
 
-# COPYRIGHT
+## COPYRIGHT
 
 Copyright 2021- **THIS APPLICATION**s ["AUTHOR"](#author) and ["CONTRIBUTORS"](#contributors) as listed
 above.
 
-# LICENSE
+## LICENSE
 
 This program is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
 
-# SEE ALSO
+## SEE ALSO
 
 [~/](http://japh.se)
