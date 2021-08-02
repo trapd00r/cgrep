@@ -1,0 +1,129 @@
+#!/usr/bin/perl
+# vim: ft=perl:fdm=marker:fmr=#<,#>:fen:et:sw=2:
+use strict;
+use warnings FATAL => 'all';
+use vars     qw($VERSION);
+use autodie  qw(:all);
+
+use utf8;
+use open qw(:std :utf8);
+
+my $APP  = 'cgrep';
+$VERSION = '0.001';
+
+use Data::Dumper;
+
+use Term::ExtendedColor qw(:attributes);
+use Getopt::Long;
+
+
+# Term::ExtendedColor supports color index 0-255 as well as various
+# color names and attributes.
+# export    CGREP_MATCH='48;5;88;38;5;196;1'
+# export CGREP_NONMATCH='38;5;137'
+my $color_match =
+  exists $ENV{CGREP_MATCH} ? $ENV{CGREP_MATCH} : 'red';
+
+my $color_nonmatch =
+  exists $ENV{CGREP_NONMATCH} ? $ENV{CGREP_NONMATCH} : 'white';
+
+
+GetOptions(
+  'c|color=s' => \$color_match,
+);
+
+# If no regex is supplied, color everything accoring to color spec.
+
+my $regex = shift // '.*';
+
+while(my $line = <>) {
+  chomp $line;
+  $line =~ s/^/\033[m\033[${color_nonmatch}m/;
+  $line =~ s/($regex)/fg($color_match, $1)/eg;
+  $line =~ s|\033\[m|\033[m\033[${color_nonmatch}m|g;
+  printf "%s\n", $line;
+}
+
+
+__END__
+
+
+=pod
+
+=head1 NAME
+
+  cgrep
+
+=head1 USAGE
+
+  cgrep <regex>
+
+=head1 DESCRIPTION
+
+grep is great and I use it all the time. At times I want to hilight
+output data like grep can do with $GREP_COLORS, but without actually
+B<filtering> the results. This program does just that.
+
+=head1 OPTIONS
+
+TODO
+
+=head1 ENVIRONMENT
+
+There's two environment variables that can be read and processes by cgrep:
+
+ CGREP_MATCH
+ CGREP_NONMATCH
+
+The first one defines the colors and attributes given to a match, the
+second one decides how what B<not> matched should look like.
+
+cgrep makes use of Term::ExtendedColor, and can therefore use a
+range of color/attribute definitions:
+
+ export    CGREP_MATCH=red
+ export CGREP_NONMATCH=white
+
+ export    CGREP_MATCH=38;5;196;1 # bold red (color index 196)
+ export CGREP_NONMATCH=38;5;88;3  # italic darker red
+
+=head1 EXAMPLES
+
+   # match one or more digits that's not preceeded by mp|MP, as in MP3.
+   beet ls artist:laleh | cgrep '(?<!(?i:mp))\d+'
+
+
+=head1 REPORTING BUGS
+
+Report bugs and/or feature requests on rt.cpan.org, the repository issue tracker
+or directly to L<m@japh.se>
+
+=head1 AUTHOR
+
+  Magnus Woldrich
+  CPAN ID: WOLDRICH
+  m@japh.se
+  japh@irc.libera.chat #perl
+  L<~/|http://japh.se>
+  L<git|http://github.com/trapd00r>
+
+=head1 CONTRIBUTORS
+
+None required yet.
+
+=head1 COPYRIGHT
+
+Copyright 2021- B<THIS APPLICATION>s L</AUTHOR> and L</CONTRIBUTORS> as listed
+above.
+
+=head1 LICENSE
+
+This program is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
+
+=head1 SEE ALSO
+
+L<~/|http://japh.se>
+
+=cut
+
